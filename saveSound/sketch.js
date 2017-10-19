@@ -1,6 +1,13 @@
 var mic, recorder, soundFile;
+var beat, airhorn;
 
 var state = 0; // mousePress will increment from Record, to Stop, to Play
+
+
+function preload(){
+  beat = loadSound('../assets/be.mp3');
+  airhorn = loadSound('../assets/airhorn.mp3')
+}
 
 function setup() {
   createCanvas(400,400);
@@ -18,7 +25,8 @@ function setup() {
   recorder = new p5.SoundRecorder();
 
   // connect the mic to the recorder
-  recorder.setInput(mic);
+  // recorder.setInput(mic);
+  recorder.setInput();
 
   // create an empty sound file that we will use to playback the recording
   soundFile = new p5.SoundFile();
@@ -27,7 +35,7 @@ function setup() {
 function mousePressed() {
   // use the '.enabled' boolean to make sure user enabled the mic (otherwise we'd record silence)
   if (state === 0 && mic.enabled) {
-
+    beat.play()
     // Tell recorder to record to a p5.SoundFile which we will use for playback
     recorder.record(soundFile);
 
@@ -38,7 +46,7 @@ function mousePressed() {
 
   else if (state === 1) {
     recorder.stop(); // stop recorder, and send the result to soundFile
-
+    beat.stop()
     background(0,255,0);
     text('Recording stopped. Click to play & save', 20, 20);
     state++;
@@ -48,5 +56,12 @@ function mousePressed() {
     soundFile.play(); // play the result!
     saveSound(soundFile, 'mySound.wav'); // save file
     state++;
+  }
+}
+
+function keyTyped(){
+  if(key == ' '){
+    airhorn.stop()
+    airhorn.play()
   }
 }

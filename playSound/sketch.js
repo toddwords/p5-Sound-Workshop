@@ -1,7 +1,9 @@
 var beat;
+var airhorn;
 
 function preload(){
   beat = loadSound('../assets/be.mp3');
+  airhorn = loadSound('../assets/airhorn.mp3')
 }
 
 function setup() {
@@ -16,5 +18,12 @@ function mousePressed() {
   } else {
     beat.play();
     background(0,255,0);
+  }
+}
+
+function keyTyped(){
+  if(key == ' '){
+    airhorn.stop()
+    airhorn.play()
   }
 }

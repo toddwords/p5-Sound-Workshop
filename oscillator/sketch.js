@@ -1,9 +1,10 @@
 var osc, fft;
-
+var oscType = 'sine'
 function setup() {
   createCanvas(720, 256);
 
-  osc = new p5.TriOsc(); // set frequency and type
+  osc = new p5.Oscillator(); // set frequency and type
+  osc.setType(oscType)
   osc.amp(.5);
 
   fft = new p5.FFT();
@@ -12,7 +13,9 @@ function setup() {
 
 function draw() {
   background(255);
+  noFill()
 
+  //this is what draws the waveform
   var waveform = fft.waveform();  // analyze the waveform
   beginShape();
   strokeWeight(5);
@@ -29,4 +32,20 @@ function draw() {
 
   var amp = map(mouseY, 0, height, 1, .01);
   osc.amp(amp);
+}
+
+function mousePressed() {
+  if(oscType == 'sine'){
+    oscType = 'triangle'
+  }
+  else if(oscType == 'triangle'){
+    oscType = 'square'
+  }
+  else if(oscType == 'square'){
+    oscType = 'sawtooth'
+  }
+  else if(oscType == 'sawtooth'){
+    oscType = 'sine'
+  }
+  osc.setType(oscType)
 }
